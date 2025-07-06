@@ -13,7 +13,7 @@ public class TextManager : MonoBehaviour
     void Start()
     {
         Invoke("Change_StartCall", ShowTxtTime);
-        this.gameObject.SetActive(false);
+        this.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
