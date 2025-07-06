@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,11 +22,16 @@ public class player : MonoBehaviour
     float StartTime,CurrentTime ;
     bool IsGround = false;
 
+    //[SerializeField] AudioSource se;
+    public AudioClip jump_sound,falling_sound;
+    private AudioSource audioSource;
+
     void Start()
     {
         transform.position = start_point;
         maincamera = GameObject.Find("Main Camera");
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         Debug.Log("start");
         
     }
@@ -38,6 +44,7 @@ public class player : MonoBehaviour
 
         if(transform.position.y < reset_height)
         {
+            audioSource.PlayOneShot(falling_sound);
             transform.position = start_point;
         }
         if (Input.GetKey(KeyCode.D))
@@ -62,7 +69,7 @@ public class player : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, speed_y);
             IsGround = false;
-
+            audioSource.PlayOneShot(jump_sound);
         }
 
     }
@@ -92,6 +99,10 @@ public class player : MonoBehaviour
         }
         //Debug.Log("Õ“Ë");
     }
-    
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        IsGround = true;
+    }
+
 
 }
